@@ -43,4 +43,12 @@
         android:layout_height="wrap_content"
         android:text="触发 TimeOut" />
 
+
+    <Button
+        android:layout_width="100dp"
+        android:text="hook onclick"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btn_hook_click"
+        android:layout_height="80dp" />
+
 </LinearLayout>
