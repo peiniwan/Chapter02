@@ -2,6 +2,7 @@ package com.dodola.watchdogkiller;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -9,12 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.tinker.lib.tinker.TinkerInstaller;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class MainActivity extends Activity {
     private TextView mStatusView;
     private static final String TAG = "MainActivity";
+    private Button btn_hook_click;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +57,8 @@ public class MainActivity extends Activity {
             }
         });
         //hook click
-        Button btn_hook_click = findViewById(R.id.btn_hook_click);
-        findViewById(R.id.btn_hook_click).setOnClickListener(new View.OnClickListener() {
+        btn_hook_click = findViewById(R.id.btn_hook_click);
+        btn_hook_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "onClick");
@@ -65,6 +69,21 @@ public class MainActivity extends Activity {
         //hook toast  值出现在7.0上
         //UI线程发生阻塞，导致TN.show()没有及时执行，当NotificationManager的检测超时后便会删除WMS中的该token，即造成token失效。
         showToast(btn_hook_click);
+
+
+        findViewById(R.id.btn_load_path).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPatch(btn_hook_click);
+                Toast.makeText(MainActivity.this, "加载完成。。。。", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public void loadPatch(View view) {
+        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(),
+                Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed.apk");
     }
 
     private void fireTimeout() {
