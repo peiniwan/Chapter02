@@ -1,4 +1,6 @@
-# Chapter02
+# Chapter02   
+
+### 练习hook，添加hook Toast、OnClickListener
 
 简介
 ======
